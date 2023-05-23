@@ -97,11 +97,34 @@ func (l javaLang) Kinds() map[string]rule.KindInfo {
 		"java_test_suite":    kindWithRuntimeDeps,
 		"java_proto_library": kindWithoutRuntimeDeps,
 		"java_grpc_library":  kindWithoutRuntimeDeps,
+		"unit_package": 	  kindWithRuntimeDeps,
+		"unit_test": 	  	  kindWithRuntimeDeps,
+		"int_test": 		  kindWithRuntimeDeps,
+		"test_test":		  kindWithRuntimeDeps,
+		"library_package": 	  javaLibraryKind,
+		"test_package": 	  kindWithRuntimeDeps,	  
 	}
 }
 
 func isTestRule(kind string) bool {
-	return kind == "java_junit5_test" || kind == "java_test" || kind == "java_test_suite"
+	var test_rule_found bool = false
+	test_kinds := [...]string{
+		"java_junit5_test", 
+		"java_test", 
+		"java_test_suite", 
+		"unit_package", 
+		"unit_test", 
+		"int_test",
+		"test_test",
+		"test_package",
+	}
+	for i :=0; i < len(test_kinds); i++ {
+		if test_kinds[i] == string {
+			test_rule_found = true
+			break
+		}
+	}
+	return test_rule_found
 }
 
 var javaLoads = []rule.LoadInfo{
@@ -127,6 +150,22 @@ var javaLoads = []rule.LoadInfo{
 			"java_test_suite",
 		},
 	},
+	{
+		Name: "@10gen_mms//server/src/unit:rules.bzl",
+		Symbols: []string{
+			"unit_test",
+			"unit_package",
+			"library_package",
+		}
+	},
+	{
+		Name: "@10gen_mms//server/src/test:rules.bzl",
+		Symbols: []string{
+			"int_test",
+			"test_test",
+			"test_package",
+		}
+	}
 }
 
 func (l javaLang) Loads() []rule.LoadInfo {

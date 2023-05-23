@@ -149,3 +149,10 @@ load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_
 rules_proto_dependencies()
 
 rules_proto_toolchains()
+
+git_repository(
+    name = "10gen_mms",
+    branch = "master",
+    remote = "git@github.com:10gen/mms.git",
+    commit = "b3b2c488b7e7c92e7acf25dee2b4297b0c04905d",
+)
